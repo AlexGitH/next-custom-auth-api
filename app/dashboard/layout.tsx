@@ -55,7 +55,7 @@ export default function DashboardLayout({
 
 async function getUser(): Promise<UserResponse> {
   try {
-    const { data } = await axios.get("/api/auth/me");
+    const { data } = await axios.get("/api/auth/currentuser");
 
     return {
       user: data,
