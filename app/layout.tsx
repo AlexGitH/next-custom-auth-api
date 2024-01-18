@@ -1,6 +1,10 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
+import { cookies } from 'next/headers'
+import { COOKIE_NAME } from './constants'
+import Logout from './logout'
+import Link from 'next/link'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -14,9 +18,19 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+  const cookiesStore = cookies();
+  const session = cookiesStore.get(COOKIE_NAME);
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <nav className='flex flex-row gap-5 mx-2 max-w-md mt-5'>
+          {!!session && <Logout session={session} /> }
+          {!session && <Link href="/">Sign In</Link> }
+          {!session && <Link href="/register">Sign Up</Link> }
+        </nav>
+
+        {children}
+      </body>
     </html>
   )
 }
